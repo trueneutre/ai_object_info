@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>사물 인식 웹앱2</title>
+    <title>사물 인식 웹앱3</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -34,23 +34,6 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .api-key-container {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: stretch;
-        }
-
-        .api-key-container input[type="text"] {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1em;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        
         video, canvas {
             width: 100%;
             max-width: 100%;
@@ -74,14 +57,6 @@
             transition: background-color 0.3s ease;
             width: 100%;
             margin-top: 5px;
-        }
-
-        button#save-key-button {
-            background-color: #2ecc71;
-        }
-        
-        button#save-key-button:hover {
-            background-color: #27ae60;
         }
 
         button:hover {
@@ -126,10 +101,6 @@
 <body>
     <div class="container">
         <h1>사물 인식 웹앱</h1>
-        <div class="api-key-container">
-            <input type="text" id="api-key-input" placeholder="여기에 Gemini API 키를 입력하세요">
-            <button id="save-key-button">API 키 저장</button>
-        </div>
         <p>카메라 화면에 사물을 비추고 '촬영' 버튼을 눌러보세요.</p>
         <video id="camera-feed" playsinline autoplay></video>
         <canvas id="snapshot-canvas" style="display: none;"></canvas>
@@ -137,37 +108,18 @@
         <div id="loading" style="display:none;">분석 중... 잠시만 기다려 주세요.</div>
         <div id="result">
             <h2>분석 결과</h2>
-            <p>API 키를 저장한 후, 촬영을 시작하면 이곳에 결과가 표시됩니다.</p>
+            <p>촬영을 시작하면 이곳에 결과가 표시됩니다.</p>
         </div>
     </div>
 
     <script>
-        const API_KEY_STORAGE = 'geminiApiKey';
+        const API_KEY = 'AIzaSyBN0xDSTxUat1bKoaULcQP81ZowswKBIPI';
         const video = document.getElementById('camera-feed');
         const canvas = document.getElementById('snapshot-canvas');
         const captureButton = document.getElementById('capture-button');
         const loadingDiv = document.getElementById('loading');
         const resultDiv = document.getElementById('result');
-        const apiKeyInput = document.getElementById('api-key-input');
-        const saveKeyButton = document.getElementById('save-key-button');
         const context = canvas.getContext('2d');
-
-        // 로컬 스토리지에서 API 키 불러오기
-        const savedApiKey = localStorage.getItem(API_KEY_STORAGE);
-        if (savedApiKey) {
-            apiKeyInput.value = savedApiKey;
-        }
-
-        // API 키 저장
-        saveKeyButton.addEventListener('click', () => {
-            const newKey = apiKeyInput.value.trim();
-            if (newKey) {
-                localStorage.setItem(API_KEY_STORAGE, newKey);
-                alert('API 키가 저장되었습니다.');
-            } else {
-                alert('유효한 API 키를 입력해주세요.');
-            }
-        });
 
         // 카메라 접근 및 권한 요청
         async function setupCamera() {
@@ -202,12 +154,6 @@
 
         // 이미지 분석 (Gemini API)
         async function analyzeImage(base64Image) {
-            const apiKey = localStorage.getItem(API_KEY_STORAGE);
-            if (!apiKey) {
-                alert('먼저 Gemini API 키를 입력하고 저장해주세요.');
-                return null;
-            }
-
             const prompt = `
             다음 이미지에 있는 사물에 대해 자세히 설명해줘.
             아래 분류 항목에 따라 한글로만 답해줘. 항목에 해당하지 않는 정보는 제외해줘.
@@ -236,7 +182,7 @@
                 }],
             };
 
-            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key=${apiKey}`, {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-pro-vision:generateContent?key=${API_KEY}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(requestBody),
@@ -251,12 +197,6 @@
 
         // 이벤트 리스너
         captureButton.addEventListener('click', async () => {
-            const apiKey = localStorage.getItem(API_KEY_STORAGE);
-            if (!apiKey) {
-                alert('API 키가 없습니다. 먼저 API 키를 입력하고 저장해주세요.');
-                return;
-            }
-
             if (!video.srcObject) {
                 alert('카메라를 찾을 수 없습니다. 페이지를 새로고침하거나 카메라 권한을 확인해주세요.');
                 return;

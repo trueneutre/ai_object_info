@@ -1,0 +1,67 @@
+{
+  "short_name": "사물인식기",
+  "name": "AI 사물 인식기 - 카메라 분석 앱",
+  "description": "카메라로 사물을 촬영하여 AI가 분석해주는 웹앱",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png", 
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./",
+  "display": "standalone",
+  "theme_color": "#3B82F6",
+  "background_color": "#EFF6FF",
+  "orientation": "portrait-primary",
+  "scope": "./",
+  "lang": "ko",
+  "dir": "ltr",
+  "categories": ["productivity", "utilities", "photo"],
+  "screenshots": [
+    {
+      "src": "screenshot-mobile.png",
+      "type": "image/png",
+      "sizes": "390x844",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "screenshot-desktop.png", 
+      "type": "image/png",
+      "sizes": "1280x720",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "카메라 촬영",
+      "short_name": "촬영",
+      "description": "사물 촬영하여 분석하기",
+      "url": "./",
+      "icons": [
+        {
+          "src": "camera-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "permissions": ["camera"],
+  "features": [
+    "camera",
+    "media-capture",
+    "canvas"
+  ]
+}

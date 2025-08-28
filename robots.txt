@@ -1,0 +1,19 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://your-domain.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Allow specific paths
+Allow: /static/
+Allow: /manifest.json
+Allow: /*.js
+Allow: /*.css
+
+# Disallow sensitive paths (if any)
+# Disallow: /api/
+# Disallow: /admin/
